@@ -14,6 +14,7 @@ namespace BindPlanet.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+        public static string order= ""; 
         public ProductsController(ApplicationDbContext context)
         {
             _context = context;
@@ -23,7 +24,7 @@ namespace BindPlanet.Controllers
         public async Task<IActionResult> Index()
         {
             var bindPlanetContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
-            ViewBag.order = "";
+           order = "";
             return View(await bindPlanetContext.ToListAsync());
         }
 
@@ -63,64 +64,64 @@ namespace BindPlanet.Controllers
             switch (type)
             {
                 case "name":
-                    if (ViewBag.order == "n1")
+                    if (order == "n1")
                     {
                         var byname = bindPlanetContext.OrderByDescending(x => x.Name);
 
-                        ViewBag.order = "n2";
+                        order = "n2";
                         return View("Index", byname); 
                     }
                     else
                     {
                         var byname = bindPlanetContext.OrderBy(x => x.Name);
 
-                        ViewBag.order = "n1";
+                        order = "n1";
                         return View("Index", byname);
                     }
              
                    
                 case "price":
-                    if (ViewBag.order == "p1")
+                    if (order == "p1")
                     {
                         var byprice = bindPlanetContext.OrderByDescending(x => x.Price);
-                        ViewBag.order = "p2";
+                        order = "p2";
                         return View("Index", byprice);
                     }
                     else
                     {
                         var byprice = bindPlanetContext.OrderBy(x => x.Price);
-                        ViewBag.order = "p1";
+                        order = "p1";
                         return View("Index", byprice);
                     }
 
                  
                 
                 case "category":
-                    if (ViewBag.order == "c1")
+                    if (order == "c1")
                     {
                         var bycategory = bindPlanetContext.OrderByDescending(x => x.Category.Name);
-                        ViewBag.order = "c2";
+                        order = "c2";
                         return View("Index", bycategory);
                     }
                     else
                     {
                         var bycategory = bindPlanetContext.OrderBy(x => x.Category.Name);
-                        ViewBag.order = "c1";
+                        order = "c1";
                         return View("Index", bycategory);
                     }
                    
 
                 case "quantity":
-                    if (ViewBag.order == "q1")
+                    if (order == "q1")
                     {
                         var byquantity = bindPlanetContext.OrderByDescending(x => x.Quantity);
-                        ViewBag.order = "q2";
+                        order = "q2";
                         return View("Index", byquantity);
                     }
                     else
                     {
                         var byquantity = bindPlanetContext.OrderBy(x => x.Quantity);
-                        ViewBag.order = "q1";
+                        order = "q1";
                         return View("Index", byquantity);
                     }
 
@@ -185,8 +186,8 @@ namespace BindPlanet.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "CategoryId", "CategoryId", product.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Set<Supplier>(), "SupplierId", "SupplierId", product.SupplierId);
+            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "CategoryId", "Name");
+            ViewData["SupplierId"] = new SelectList(_context.Set<Supplier>(), "SupplierId", "Name");
             return View(product);
         }
 

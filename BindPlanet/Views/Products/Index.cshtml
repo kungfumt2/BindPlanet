@@ -38,12 +38,7 @@
                 <a href="@Url.Action("Order","Products",new { type="price" })">    @Html.DisplayNameFor(model => model.Price)</a>
 
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                Supplier
-            </th>
+     
             <th>
                 <a href="@Url.Action("Order","Products",new { type="category" })">           Category</a>
 
@@ -64,12 +59,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)  €
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Supplier.Name)
-                </td>
+     
                 <td>
                     @Html.DisplayFor(modelItem => item.Category.Name)
                 </td>
