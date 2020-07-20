@@ -23,6 +23,7 @@ namespace BindPlanet.Controllers
         public async Task<IActionResult> Index()
         {
             var bindPlanetContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
+            ViewBag.order = "";
             return View(await bindPlanetContext.ToListAsync());
         }
 
@@ -54,13 +55,86 @@ namespace BindPlanet.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Order()
+        public async Task<IActionResult> Order(string type)
         {
             var bindPlanetContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
             await bindPlanetContext.ToListAsync();
-            var ordened = bindPlanetContext.OrderBy(x => x.Name);
+            
+            switch (type)
+            {
+                case "name":
+                    if (ViewBag.order == "n1")
+                    {
+                        var byname = bindPlanetContext.OrderByDescending(x => x.Name);
 
-            return View("Index", ordened);
+                        ViewBag.order = "n2";
+                        return View("Index", byname); 
+                    }
+                    else
+                    {
+                        var byname = bindPlanetContext.OrderBy(x => x.Name);
+
+                        ViewBag.order = "n1";
+                        return View("Index", byname);
+                    }
+             
+                   
+                case "price":
+                    if (ViewBag.order == "p1")
+                    {
+                        var byprice = bindPlanetContext.OrderByDescending(x => x.Price);
+                        ViewBag.order = "p2";
+                        return View("Index", byprice);
+                    }
+                    else
+                    {
+                        var byprice = bindPlanetContext.OrderBy(x => x.Price);
+                        ViewBag.order = "p1";
+                        return View("Index", byprice);
+                    }
+
+                 
+                
+                case "category":
+                    if (ViewBag.order == "c1")
+                    {
+                        var bycategory = bindPlanetContext.OrderByDescending(x => x.Category.Name);
+                        ViewBag.order = "c2";
+                        return View("Index", bycategory);
+                    }
+                    else
+                    {
+                        var bycategory = bindPlanetContext.OrderBy(x => x.Category.Name);
+                        ViewBag.order = "c1";
+                        return View("Index", bycategory);
+                    }
+                   
+
+                case "quantity":
+                    if (ViewBag.order == "q1")
+                    {
+                        var byquantity = bindPlanetContext.OrderByDescending(x => x.Quantity);
+                        ViewBag.order = "q2";
+                        return View("Index", byquantity);
+                    }
+                    else
+                    {
+                        var byquantity = bindPlanetContext.OrderBy(x => x.Quantity);
+                        ViewBag.order = "q1";
+                        return View("Index", byquantity);
+                    }
+
+                  
+
+                
+                default:
+                    Console.WriteLine("Default case");
+                    break;
+            }
+            return RedirectToAction(nameof(Index));
+
+
+
 
 
 

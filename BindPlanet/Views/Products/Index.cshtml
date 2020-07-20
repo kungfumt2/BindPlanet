@@ -13,68 +13,74 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 @using (Html.BeginForm("Search", "Products", FormMethod.Post, new { @role = "form", @class = "form-horizontal", enctype = "multipart/form-data", @id = "form" }))
 {
-<div class="form-group">
-    <label class="text-info">Pesquisar:</label><br>
-    <input type="text" name="word" class="form-control">
+    <button class="btn-info" type="submit" style="float: right"><i class="icon-search"></i></button>
+    <div style="overflow: hidden; padding-right: .5em;">
+        <input type="text" name="word" class="form-control" style="width: 100%;">
+    </div>
+    @*<div class="form-group">
+            <label class="text-info">Search:</label><br>
+            <input type="text" name="word" class="form-control">
 
-    <button class="btn-info" type="submit"><i class="icon-search"></i></button>
+            <button class="btn-info" type="submit" style="float: right"><i class="icon-search"></i></button>
 
-</div>
+        </div>*@
 }
-    <table class="table">
-        <thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a href="@Url.Action("Order","Products",new { type="name" })">@Html.DisplayNameFor(model => model.Name)</a>
+            </th>
+            <th>
+                <a href="@Url.Action("Order","Products",new { type="quantity" })">  @Html.DisplayNameFor(model => model.Quantity)</a>
+            </th>
+            <th>
+                <a href="@Url.Action("Order","Products",new { type="price" })">    @Html.DisplayNameFor(model => model.Price)</a>
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                Supplier
+            </th>
+            <th>
+                <a href="@Url.Action("Order","Products",new { type="category" })">           Category</a>
+
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Quantity)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Supplier.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Category.Name)
-                </th>
-                <th></th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)  €
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Supplier.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProductId">Add Stock</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)  €
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Supplier.SupplierId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Category.CategoryId)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <a href="@Url.Action("Order","Products")">Ordenar</a>
+        }
+    </tbody>
+</table>
+<a href="@Url.Action("Order","Products")">Ordenar</a>
 
