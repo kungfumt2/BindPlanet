@@ -7,27 +7,36 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BindPlanet.Data;
 using BindPlanet.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BindPlanet.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> userManager;
 
         public static string order= ""; 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context , UserManager<IdentityUser> userManager)
         {
+            this.userManager = userManager;
             _context = context;
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
+        
             var bindPlanetContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
            order = "";
             return View(await bindPlanetContext.ToListAsync());
         }
-
+        [HttpGet]
+        public IActionResult ListUsers()
+        {
+            var users = userManager.Users;
+            return View(users);
+        }
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {

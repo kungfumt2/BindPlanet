@@ -200,3 +200,4 @@ C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\net
 C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
 C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
+C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Views\Products\ListUsers.cshtml.g.cs
