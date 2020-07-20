@@ -49,9 +49,35 @@ namespace BindPlanet.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "CategoryId", "CategoryId");
-            ViewData["SupplierId"] = new SelectList(_context.Set<Supplier>(), "SupplierId", "SupplierId");
+            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "CategoryId", "Name");
+            ViewData["SupplierId"] = new SelectList(_context.Set<Supplier>(), "SupplierId", "Name");
             return View();
+        }
+
+        public async Task<IActionResult> Order()
+        {
+            var bindPlanetContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
+            await bindPlanetContext.ToListAsync();
+            var ordened = bindPlanetContext.OrderBy(x => x.Name);
+
+            return View("Index", ordened);
+
+
+
+        }
+        public async Task<IActionResult> Search(string word)
+        {
+            if (word != null)
+            {
+                var bindPlanetContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
+                await bindPlanetContext.ToListAsync();
+
+                var searched = bindPlanetContext.Where(x => x.Name.Contains(word));
+
+                return View("Index", searched);
+            }
+            return RedirectToAction(nameof(Index));
+
         }
 
         // POST: Products/Create

@@ -189,3 +189,14 @@ C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\net
 C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Views\Categories\Details.cshtml.g.cs
 C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Views\Categories\Edit.cshtml.g.cs
 C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Views\Categories\Index.cshtml.g.cs
+C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Views\Suppliers\Create.cshtml.g.cs
+C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Views\Suppliers\Delete.cshtml.g.cs
+C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Views\Suppliers\Details.cshtml.g.cs
+C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Views\Suppliers\Edit.cshtml.g.cs
+C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Views\Suppliers\Index.cshtml.g.cs
+C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
+C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Logout.cshtml.g.cs
+C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Register.cshtml.g.cs
+C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
+C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\fe-ce\OneDrive\Ambiente de Trabalho\BindPlanet\BindPlanet\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs

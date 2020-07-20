@@ -35,8 +35,7 @@ namespace BindPlanet
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddDbContext<BindPlanetContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("BindPlanetContext")));
+       
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
