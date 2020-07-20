@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<BindPlanet.Models.Product>
-
+@using BindPlanet.Enums;
 @{
     ViewData["Title"] = "Index";
 }
@@ -11,11 +11,11 @@
 </p>
 <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-@using (Html.BeginForm("Search", "Products", FormMethod.Post, new { @role = "form", @class = "form-horizontal", enctype = "multipart/form-data", @id = "form" }))
+@using (Html.BeginForm("Index", "Products", FormMethod.Get, new { @role = "form", @class = "form-horizontal", enctype = "multipart/form-data", @id = "form" }))
 {
     <button class="btn-info" type="submit" style="float: right"><i class="icon-search"></i></button>
     <div style="overflow: hidden; padding-right: .5em;">
-        <input type="text" name="word" class="form-control" style="width: 100%;">
+        <input type="text" name="searchterm" class="form-control" style="width: 100%;">
     </div>
     @*<div class="form-group">
             <label class="text-info">Search:</label><br>
@@ -25,52 +25,83 @@
 
         </div>*@
 }
+
+@functions {
+    public OrderDirection GetDirection(string type)
+    {
+        string selectedType = ViewBag.type;
+        OrderDirection selectedOrder = ViewBag.direction;
+
+        if(selectedType != null)
+        {
+            if(type != selectedType)
+            {
+                return OrderDirection.Ascending;
+            }
+            else
+            {
+                if (selectedOrder == OrderDirection.Ascending) {
+                    return OrderDirection.Descending; 
+                } 
+                else { return OrderDirection.Ascending; }
+            }
+        }
+        else
+        {
+            return OrderDirection.Ascending;
+        }
+    }
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                <a href="@Url.Action("Order","Products",new { type="name" })">@Html.DisplayNameFor(model => model.Name)</a>
-            </th>
-            <th>
-                <a href="@Url.Action("Order","Products",new { type="quantity" })">  @Html.DisplayNameFor(model => model.Quantity)</a>
-            </th>
-            <th>
-                <a href="@Url.Action("Order","Products",new { type="price" })">    @Html.DisplayNameFor(model => model.Price)</a>
+                @{
 
-            </th>
-     
-            <th>
-                <a href="@Url.Action("Order","Products",new { type="category" })">           Category</a>
 
-            </th>
-            <th></th>
+            }
+            <a href="@Url.Action("Index","Products",new { type="name", direction= GetDirection("name")})">@Html.DisplayNameFor(model => model.Name)</a>
+        </th>
+        <th>
+            <a href="@Url.Action("Index","Products",new { type="quantity" , direction= GetDirection("quantity")})">  @Html.DisplayNameFor(model => model.Quantity)</a>
+        </th>
+        <th>
+            <a href="@Url.Action("Index","Products",new { type="price", direction= GetDirection("price") })">    @Html.DisplayNameFor(model => model.Price)</a>
+
+        </th>
+
+        <th>
+            <a href="@Url.Action("index","Products",new { type="category", direction= GetDirection("category") })">Category</a>
+
+        </th>
+        <th></th>
+    </tr>
+</thead>
+<tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)  €
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ProductId">Add Stock</a> |
+                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+            </td>
         </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)  €
-                </td>
-     
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category.Name)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ProductId">Add Stock</a> |
-                    <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
+    }
+</tbody>
 </table>
-<a href="@Url.Action("Order","Products")">Ordenar</a>
 

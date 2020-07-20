@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BindPlanet.Data;
 using BindPlanet.Models;
 using Microsoft.AspNetCore.Identity;
+using BindPlanet.Enums;
 
 namespace BindPlanet.Controllers
 {
@@ -16,27 +17,20 @@ namespace BindPlanet.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> userManager;
 
-        public static string order= ""; 
-        public ProductsController(ApplicationDbContext context , UserManager<IdentityUser> userManager)
+        public static string order = "";
+        public ProductsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             this.userManager = userManager;
             _context = context;
         }
 
-        // GET: Products
-        public async Task<IActionResult> Index()
-        {
-        
-            var bindPlanetContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
-           order = "";
-            return View(await bindPlanetContext.ToListAsync());
-        }
         [HttpGet]
         public IActionResult ListUsers()
         {
             var users = userManager.Users;
             return View(users);
         }
+
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -65,103 +59,64 @@ namespace BindPlanet.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Order(string type)
+        // products/order?type=name&direction=1
+        public async Task<IActionResult> Index(string type = "", OrderDirection direction = OrderDirection.Ascending, string searchterm = "")
         {
-            var bindPlanetContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
-            await bindPlanetContext.ToListAsync();
-            
+            var list = await _context.Products.Include(p => p.Category).Include(p => p.Supplier).ToListAsync();
+            if (!string.IsNullOrEmpty(searchterm))
+            {
+                list = list.Where(x => x.Name.ToLower().Contains(searchterm.ToLower())).ToList();
+            }
+            ViewBag.type = type;
+            ViewBag.direction = direction;
             switch (type)
             {
                 case "name":
-                    if (order == "n1")
+                    if (direction == OrderDirection.Descending)
                     {
-                        var byname = bindPlanetContext.OrderByDescending(x => x.Name);
-
-                        order = "n2";
-                        return View("Index", byname); 
+                        list = list.OrderByDescending(x => x.Name).ToList();
                     }
                     else
                     {
-                        var byname = bindPlanetContext.OrderBy(x => x.Name);
-
-                        order = "n1";
-                        return View("Index", byname);
+                        list = list.OrderBy(x => x.Name).ToList();
                     }
-             
-                   
-                case "price":
-                    if (order == "p1")
-                    {
-                        var byprice = bindPlanetContext.OrderByDescending(x => x.Price);
-                        order = "p2";
-                        return View("Index", byprice);
-                    }
-                    else
-                    {
-                        var byprice = bindPlanetContext.OrderBy(x => x.Price);
-                        order = "p1";
-                        return View("Index", byprice);
-                    }
-
-                 
-                
-                case "category":
-                    if (order == "c1")
-                    {
-                        var bycategory = bindPlanetContext.OrderByDescending(x => x.Category.Name);
-                        order = "c2";
-                        return View("Index", bycategory);
-                    }
-                    else
-                    {
-                        var bycategory = bindPlanetContext.OrderBy(x => x.Category.Name);
-                        order = "c1";
-                        return View("Index", bycategory);
-                    }
-                   
-
-                case "quantity":
-                    if (order == "q1")
-                    {
-                        var byquantity = bindPlanetContext.OrderByDescending(x => x.Quantity);
-                        order = "q2";
-                        return View("Index", byquantity);
-                    }
-                    else
-                    {
-                        var byquantity = bindPlanetContext.OrderBy(x => x.Quantity);
-                        order = "q1";
-                        return View("Index", byquantity);
-                    }
-
-                  
-
-                
-                default:
-                    Console.WriteLine("Default case");
                     break;
+                case "price":
+                    if (direction == OrderDirection.Descending)
+                    {
+                        list = list.OrderByDescending(x => x.Price).ToList(); ;
+                    }
+                    else
+                    {
+                        list = list.OrderBy(x => x.Price).ToList(); ;
+                    }
+                    break;
+                case "category":
+                    if (direction == OrderDirection.Descending)
+                    {
+                        list = list.OrderByDescending(x => x.Category.Name).ToList();
+                    }
+                    else
+                    {
+                        list = list.OrderBy(x => x.Category.Name).ToList();
+                     
+                    }
+                    break;
+                case "quantity":
+                    if (direction == OrderDirection.Descending)
+                    {
+                        list = list.OrderByDescending(x => x.Quantity).ToList();
+                    }
+                    else
+                    {
+                        list = list.OrderBy(x => x.Quantity).ToList();
+                    }
+                    break;
+                default:
+                    return View("Index", list);
             }
-            return RedirectToAction(nameof(Index));
 
-
-
-
-
-
-        }
-        public async Task<IActionResult> Search(string word)
-        {
-            if (word != null)
-            {
-                var bindPlanetContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
-                await bindPlanetContext.ToListAsync();
-
-                var searched = bindPlanetContext.Where(x => x.Name.Contains(word));
-
-                return View("Index", searched);
-            }
-            return RedirectToAction(nameof(Index));
-
+            return View("Index", list);
         }
 
         // POST: Products/Create
