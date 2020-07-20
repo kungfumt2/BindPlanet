@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Products List</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Add Product</a>
 </p>
 <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
@@ -27,9 +27,9 @@
 }
 
 @functions {
-    public OrderDirection GetDirection(string type)
+    public OrderDirection GetDirection(ProductType type)
     {
-        string selectedType = ViewBag.type;
+        ProductType selectedType = ViewBag.type;
         OrderDirection selectedOrder = ViewBag.direction;
 
         if(selectedType != null)
@@ -61,18 +61,18 @@
 
 
             }
-            <a href="@Url.Action("Index","Products",new { type="name", direction= GetDirection("name")})">@Html.DisplayNameFor(model => model.Name)</a>
+            <a href="@Url.Action("Index","Products",new { type=ProductType.Name, direction= GetDirection(ProductType.Name)})">@Html.DisplayNameFor(model => model.Name)</a>
         </th>
         <th>
-            <a href="@Url.Action("Index","Products",new { type="quantity" , direction= GetDirection("quantity")})">  @Html.DisplayNameFor(model => model.Quantity)</a>
+            <a href="@Url.Action("Index","Products",new { type=ProductType.Quantity , direction= GetDirection(ProductType.Quantity)})">  @Html.DisplayNameFor(model => model.Quantity)</a>
         </th>
         <th>
-            <a href="@Url.Action("Index","Products",new { type="price", direction= GetDirection("price") })">    @Html.DisplayNameFor(model => model.Price)</a>
+            <a href="@Url.Action("Index","Products",new { type=ProductType.Price, direction= GetDirection(ProductType.Price) })">    @Html.DisplayNameFor(model => model.Price)</a>
 
         </th>
 
         <th>
-            <a href="@Url.Action("index","Products",new { type="category", direction= GetDirection("category") })">Category</a>
+            <a href="@Url.Action("index","Products",new { type=ProductType.Category, direction= GetDirection(ProductType.Category) })">Category</a>
 
         </th>
         <th></th>
@@ -96,9 +96,9 @@
                 @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Add Stock</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ProductId">Update Stock</a> |
+                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> @*|
+                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>*@
             </td>
         </tr>
     }

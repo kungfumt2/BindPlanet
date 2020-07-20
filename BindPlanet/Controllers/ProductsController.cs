@@ -9,9 +9,11 @@ using BindPlanet.Data;
 using BindPlanet.Models;
 using Microsoft.AspNetCore.Identity;
 using BindPlanet.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BindPlanet.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -60,7 +62,7 @@ namespace BindPlanet.Controllers
         }
 
         // products/order?type=name&direction=1
-        public async Task<IActionResult> Index(string type = "", OrderDirection direction = OrderDirection.Ascending, string searchterm = "")
+        public async Task<IActionResult> Index(ProductType type = ProductType.Name, OrderDirection direction = OrderDirection.Ascending, string searchterm = "")
         {
             var list = await _context.Products.Include(p => p.Category).Include(p => p.Supplier).ToListAsync();
             if (!string.IsNullOrEmpty(searchterm))
@@ -71,7 +73,7 @@ namespace BindPlanet.Controllers
             ViewBag.direction = direction;
             switch (type)
             {
-                case "name":
+                case ProductType.Name:
                     if (direction == OrderDirection.Descending)
                     {
                         list = list.OrderByDescending(x => x.Name).ToList();
@@ -81,7 +83,7 @@ namespace BindPlanet.Controllers
                         list = list.OrderBy(x => x.Name).ToList();
                     }
                     break;
-                case "price":
+                case ProductType.Price:
                     if (direction == OrderDirection.Descending)
                     {
                         list = list.OrderByDescending(x => x.Price).ToList(); ;
@@ -91,7 +93,7 @@ namespace BindPlanet.Controllers
                         list = list.OrderBy(x => x.Price).ToList(); ;
                     }
                     break;
-                case "category":
+                case ProductType.Category:
                     if (direction == OrderDirection.Descending)
                     {
                         list = list.OrderByDescending(x => x.Category.Name).ToList();
@@ -102,7 +104,7 @@ namespace BindPlanet.Controllers
                      
                     }
                     break;
-                case "quantity":
+                case ProductType.Quantity:
                     if (direction == OrderDirection.Descending)
                     {
                         list = list.OrderByDescending(x => x.Quantity).ToList();
